@@ -11,7 +11,7 @@ permissions:
 jobs:
   format:
     name: Check formatting
-    runs-on: ubuntu-lastest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
@@ -27,7 +27,7 @@ jobs:
 
   validate:
     name: Validate ${{matrix.directory}}
-    runs-on: ubuntu-lastest
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
