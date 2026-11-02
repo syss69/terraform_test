@@ -5,7 +5,7 @@ on:
     branches: [master]
   pull_request:
 
-permissons:
+permissions:
   contents: read
 
 jobs:
