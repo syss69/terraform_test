@@ -1,5 +1,5 @@
 output "environment" {
-	value = terraform_data.this.output
+  value = terraform_data.this.output
 }
 
 
