@@ -1,0 +1,49 @@
+Подключение провайдеров terraform
+
+Структура файлов :
+versions.tf
+
+terraform {
+  required_version = ">= 1.6.0"
+
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+    }
+  }
+}
+
+инструкция для терраформ - минимальная версия терраформ
+
+required_providers {
+	имя_провайдера = {
+		source = "адрес провайдера в terraform registry"
+	}
+}
+
+ВАЖНО: само по себе наличие файла / инструкции внутри единого файла не устаноавливает провайдера, для установки используется terraform init
+
+providers.tf 
+
+provider "aws" {
+  region  = "eu-north-1"
+  profile = "terraform"
+}
+
+provider "имя" {
+	ключ = значение
+}
+
+при подключенных провайдерах можем использовать типы , далее на примере AWS:
+
+resource "aws_instance" "staging" {
+  instance_type = "t3.small"
+}
+
+управление ЕС2 
+
+data "aws_caller_identity" "current" {}
+
+прочитать кем terraform авторизован в AWS
+
+

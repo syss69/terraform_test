@@ -1,0 +1,80 @@
+Основные понятия
+
+Terraform configuration
+Все .tf-файлы в текущей папке.
+main.tf, providers.tf, backend.tf — просто удобные названия,
+а не специальные файлы.
+
+Provider
+Плагин для работы с конкретной платформой.
+Например: hashicorp/aws, cloudflare, github.
+
+State
+Память Terraform о конкретных ресурсах, которыми он управляет.
+
+Backend
+Место, где хранится state.
+Например: local-файл или S3 bucket.
+
+Основные команды terraform
+
+init - подготовка проекта - установка провайдеров, подключение backend, создает папку .terraform
+
+plan - планирование разворачивания описанной в описанной в файлах .tf инфраструктуры (main, backend, import и тд)
+
+plan -destroy - планирование уничтожения описанной в описанной в файлах .tf инфраструктуры (main, backend, import и тд)
+
+apply - применение и развертывание описанной в файлах .tf инфраструктуры (main, backend, import и тд)
+
+destroy - уничтожение всех рессурсов из current state
+
+Синтаксис
+
+resource syntax :
+
+resource "тип_ресурса(разное для различных провайдеров)" "локальное_имя_рессурса" {
+	ключ = значение (может быть "объектом", определенным через {}"
+}
+
+Существует для управления рессурсами
+
+output syntax :
+
+output "имя_аутпута" {
+	value = имя_ресурса.локальое_имя_рессурса.ключ
+}
+
+Существует для вывода значений для других пользователей / программ
+
+data syntax : 
+
+data "имя_рессурса" "локальное_имя_рессурса" {
+	ключ = значение
+}
+
+Существует для чтения уже существующего рессурса
+
+variable syntax :
+
+variable "name" {
+	type = variable_type
+	description = variable_description
+	default = "default vlaue"
+}
+
+Объявление переменнной. 
+
+Использование переменной в tf файле :
+
+key = var.name
+
+Задать переменную для исполнения терраформом :
+ 
+a) terraform apply/plan -var="var_name=значение"
+
+b) Создать filename.tfvars и использовать флаг -var-file=filename.tfvars
+   
+   синтаксис tfvars
+
+   variable_name = value ("string" , number etc)
+
