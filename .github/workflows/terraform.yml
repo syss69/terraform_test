@@ -1,0 +1,59 @@
+name: Terraform CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+permissons:
+  contents: read
+
+jobs:
+  format:
+    name: Check formatting
+    runs-on: ubuntu-lastest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set Up Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_wrapper: false
+
+      - name: Check Terraform formatting
+        run: terraform fmt -check -recursive
+
+  validate:
+    name: Validate ${{matrix.directory}}
+    runs-on: ubuntu-lastest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        directory:
+          - 01-local-state
+          - 02-aws-read-only
+          - 03-aws-s3
+          - 04-aws-security-group
+          - 05-locals-and-for-each
+          - 06-modules
+          - 07-remote-state
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_wrapper: false
+
+      - name: Initialize without backend
+        working-directory: ${{ matrix.directory }}
+        run: terraform init -backend=false -input=false
+
+      - name: Validate config
+        working-directory: ${{ matrix.directory }}
+        run: terraform validate -no-color
